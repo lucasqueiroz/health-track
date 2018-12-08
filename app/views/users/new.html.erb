@@ -1,5 +1,12 @@
 <h1>New User</h1>
 <%= form_for @user do |form| %>
+  <% if @user.errors.any? %>
+    <ul>
+      <% @user.errors.full_messages.each do |error_message| %>
+        <li><%= error_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name %>
@@ -11,7 +18,7 @@
   </div>
 
   <div class="field">
-    <%= form.label :birthdat %>
+    <%= form.label :birthday %>
     <%= form.date_field :birthday %>
   </div>
 
