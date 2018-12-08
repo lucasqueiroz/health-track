@@ -48,6 +48,15 @@ RSpec.describe User, type: :model do
     it { is_expected.not_to be_valid }
   end
 
+  context "when email is invalid" do
+    before do
+      user.email = 'aaa'
+    end
+
+    subject { user }
+    it { is_expected.not_to be_valid }
+  end
+
   context "when birthday is empty" do
     before do
       user.birthday = ''
