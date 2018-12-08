@@ -3,8 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.5.1
-      environment:
-        RAILS_ENV: test
+    environment:
+      RAILS_ENV: test
     steps:
       - checkout
       - run:

@@ -31,6 +31,8 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem 'execjs', '>= 2.4.0'
+  gem 'therubyracer', '>= 0.12.3'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
