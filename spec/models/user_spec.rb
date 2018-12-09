@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) do
-    User.new(name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com',
-      birthday: '26/02/1997', height: 1.73, weight: 102, password: 'password')
-  end
-
+  let(:user) { create(:user) }
 
   context "when attributes are valid" do
     subject { user }
