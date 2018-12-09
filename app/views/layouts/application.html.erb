@@ -10,9 +10,27 @@
   </head>
 
   <body>
+    <header class="navbar-fixed">
+      <nav class="teal darken-1">
+        <div class="nav-wrapper container">
+          <%= link_to 'Health Track', root_path, class: 'brand-logo' %>
+          <ul class="right">
+            <li><%= link_to 'Dashboard', root_path %></li>
+            <% if logged_in? %>
+              <li><%= link_to 'Sign Out', logout_path, method: :delete %></li>
+            <% else %>
+              <li><%= link_to 'Sign In', login_path %></li>
+              <li><%= link_to 'Sign Up', signup_path %></li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+    </header>
     <% flash.each do |type, message| %>
       <div class="alert alert-<%= type %>"><%= message %></div>
     <% end %>
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

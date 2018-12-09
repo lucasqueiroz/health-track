@@ -1,4 +1,18 @@
-<h1>Dashboard</h1>
-This is the user's dashboard!
-User: <%= current_user.nil? ? 'None' : current_user.name %>
-<%= link_to 'Logout', logout_path, method: :delete %>
+<div class="section no-pad-bot cover teal">
+  <div class="container">
+    <h1 class="header center white-text">Health Track</h1>
+    <div class="row center white-text">
+      <h5 class="header col s12 light">Track your height, weight, workouts and food!</h5>
+    </div>
+    <div class="row center">
+      <% if logged_in? %>
+        <%= render partial: 'logged_in_buttons' %>
+      <% else %>
+        <%= render partial: 'logged_out_buttons' %>
+      <% end %>
+    </div>
+    <br>
+    <br>
+  </div>
+</div>
+<%= image_tag 'dashboard/background', width: '100%' %>
