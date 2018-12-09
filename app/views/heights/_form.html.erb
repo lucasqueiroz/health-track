@@ -1,0 +1,20 @@
+<%= form_for @height do |form| %>
+  <% if @height.errors.any? %>
+    <ul>
+      <% @height.errors.full_messages.each do |error_message| %>
+        <li><%= error_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <div class="field">
+    <%= form.label :height %>
+    <%= form.number_field :measurement, step: '0.01', value: '1.60', min: 0, max: 3 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_field :measured_at, min: '1900-01-01', max: Date.today %>
+  </div>
+
+  <%= form.submit %>
+<% end %>
