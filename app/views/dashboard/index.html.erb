@@ -1,2 +1,4 @@
 <h1>Dashboard</h1>
 This is the user's dashboard!
+User: <%= current_user.nil? ? 'None' : current_user.name %>
+<%= link_to 'Logout', logout_path %>
