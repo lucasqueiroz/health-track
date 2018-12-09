@@ -9,4 +9,14 @@ RSpec.describe SessionsController, type: :controller do
     end
   end
 
+  describe "POST #create" do
+    context "when invalid login information is sent" do
+      it "should display error message" do
+        post :create, params: { session: { email: '', password: '' } }
+        expect(response).to render_template(:new)
+        expect(flash).not_to be_empty
+      end
+    end
+  end
+
 end

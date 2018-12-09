@@ -12,5 +12,5 @@ WORKDIR $APP_HOME
 RUN gem install bundler && \
     bundle install
 
-EXPOSE 8000
+EXPOSE 3000
 CMD ["rails", "s", "-b", "0.0.0.0", "-p", "3000"]
