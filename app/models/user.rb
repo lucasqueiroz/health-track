@@ -5,4 +5,5 @@ class User < ApplicationRecord
   validates :birthday, presence: true, date: { before: Date.new(2005, 1, 1) }
   has_many :heights
   has_many :weights
+  has_many :workouts
 end
