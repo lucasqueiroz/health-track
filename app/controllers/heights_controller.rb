@@ -6,10 +6,6 @@ class HeightsController < ApplicationController
   def index
   end
 
-  def show
-    @height = Height.find(params[:id])
-  end
-
   def new
     @height = Height.new
   end

@@ -2,13 +2,6 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
-  describe "GET #index" do
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe "GET #new" do
     it "returns http success" do
       get :new
@@ -23,7 +16,7 @@ RSpec.describe UsersController, type: :controller do
            birthday: '26/02/1997', height: 1.73, weight: 102, password: 'pass' } }
 
       expect(response).to have_http_status(:found)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(login_path)
       expect(User.last.name).to eq('Lucas Queiroz')
     end
 

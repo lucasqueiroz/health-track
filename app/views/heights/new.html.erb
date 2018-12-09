@@ -1,2 +1,11 @@
-<h1>Heights#new</h1>
-<%= render 'form', height: @height %>
+<main style="padding-top: 4rem">
+  <section id="signup">
+    <div class="container-fluid pt-3">
+      <div class="row">
+        <div class="col s4 offset-s4">
+          <%= render 'add_height', height: @height %>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

@@ -5,22 +5,7 @@
         <div class="card-content">
           <span class="card-title">Height List</span>
           <p>
-            <table>
-              <tr>
-                <th>User Name</th>
-                <th>Height</th>
-                <th>Date</th>
-                <th colspan="2">Actions</th>
-              </tr>
-              <% @heights.each do |height| %>
-                <tr>
-                  <td><%= height.user.name %></td>
-                  <td><%= height.measurement %></td>
-                  <td><%= height.measured_at %></td>
-                  <td><%= link_to 'Delete', height, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                </tr>
-              <% end %>
-            </table>
+            <%= render partial: 'table' %>
           </p>
         </div>
         <div class="fixed-action-btn">
