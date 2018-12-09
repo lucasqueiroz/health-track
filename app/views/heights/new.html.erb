@@ -1,0 +1,14 @@
+<h1>Heights#new</h1>
+<%= form_for @height do |form| %>
+  <div class="field">
+    <%= form.label :height %>
+    <%= form.number_field :measurement, step: '0.01', value: '1.60' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_field :measured_at %>
+  </div>
+
+  <%= form.submit %>
+<% end %>

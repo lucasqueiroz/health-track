@@ -1,0 +1,15 @@
+<h1>Heights</h1>
+<table>
+  <tr>
+    <th>User Name</th>
+    <th>Height</th>
+    <th>Date</th>
+  </tr>
+  <% @heights.each do |height| %>
+    <tr>
+      <td><%= height.user.name %></td>
+      <td><%= height.measurement %></td>
+      <td><%= height.measured_at %></td>
+    </tr>
+  <% end %>
+</table>
