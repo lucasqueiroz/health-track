@@ -65,40 +65,4 @@ RSpec.describe User, type: :model do
     subject { user }
     it { is_expected.not_to be_valid }
   end
-
-  context "when height is empty" do
-    before do
-      user.height = ''
-    end
-
-    subject { user }
-    it { is_expected.not_to be_valid }
-  end
-
-  context "when height is not a number" do
-    before do
-      user.height = 'a'
-    end
-
-    subject { user }
-    it { is_expected.not_to be_valid }
-  end
-
-  context "when weight is empty" do
-    before do
-      user.weight = ''
-    end
-
-    subject { user }
-    it { is_expected.not_to be_valid }
-  end
-
-  context "when weight is not a number" do
-    before do
-      user.weight = 'a'
-    end
-
-    subject { user }
-    it { is_expected.not_to be_valid }
-  end
 end

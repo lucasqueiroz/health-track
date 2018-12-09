@@ -1,10 +1,14 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
 
+  private
+
   def check_user
-    if current_user.nil?
-      flash[:danger] = "You must be logged in to do this!"
-      redirect_to login_path
-    end
+    redirect_user unless logged_in?
+  end
+
+  def redirect_user
+    flash[:danger] = "You must be logged in to do this!"
+    redirect_to login_path
   end
 end
