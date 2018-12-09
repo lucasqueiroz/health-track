@@ -4,4 +4,5 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 200 }, uniqueness: true, email: true
   validates :birthday, presence: true, date: { before: Date.new(2005, 1, 1) }
   has_many :heights
+  has_many :weights
 end
