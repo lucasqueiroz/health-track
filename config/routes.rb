@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'dashboard#index'
 
-  resources :users
+  resources :users, only: [:new, :create]
   get 'signup', to: 'users#new'
 
   get 'login', to: 'sessions#new'
