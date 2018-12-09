@@ -1,7 +1,7 @@
 class HeightsController < ApplicationController
   before_action :check_user
   before_action :set_heights, only: :index
-  before_action :set_height, only: [:edit, :update]
+  before_action :set_height, only: [:edit, :update, :destroy]
 
   def index
   end
@@ -35,6 +35,12 @@ class HeightsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    @height.destroy
+    flash[:success] = "Height was removed!"
+    redirect_to heights_path
   end
 
   private

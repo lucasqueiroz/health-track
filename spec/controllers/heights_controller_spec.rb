@@ -49,4 +49,14 @@ RSpec.describe HeightsController, type: :controller do
     end
   end
 
+  describe "#DELETE destroy" do
+    it "destroys a height" do
+      delete :destroy, params: { id: height.id }
+
+      expect(response).to have_http_status(:found)
+      expect(response).to redirect_to(heights_path)
+      expect(flash).not_to be_empty
+    end
+  end
+
 end
