@@ -1,14 +1,11 @@
-<h1>Login</h1>
-<%= form_for(:session, url: login_path) do |form| %>
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div class="field">
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-  </div>
-
-  <%= form.submit 'Login' %>
-<% end %>
+<main style="padding-top: 4rem">
+  <section id="login">
+    <div class="container-fluid pt-3">
+      <div class="row">
+        <div class="col s4 offset-s4">
+          <%= render partial: 'form' %>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

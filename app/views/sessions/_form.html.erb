@@ -1,0 +1,31 @@
+<div class="login-form">
+  <div class="card hoverable">
+    <div class="card-content">
+      <span class="card-title center">Login</span>
+      <div class="divider"></div>
+      <br>
+      <%= form_for(:session, url: login_path, class: 'simple_form') do |form| %>
+        <div class="form-inputs row">
+          <div class="input-field col s12 email session_email">
+            <i class="material-icons prefix">email</i>
+            <%= form.text_field :email, class: 'validate email required' %>
+            <%= form.label :email, class: 'email' %>
+          </div>
+
+          <div class="input-field col s12 password session_password">
+            <i class="material-icons prefix">lock</i>
+            <%= form.password_field :password, class: 'validate password required' %>
+            <%= form.label :password, class: 'password' %>
+          </div>
+
+          <div class="center">
+            <%= form.submit 'Login', class: 'btn-large blue' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="card-actions login-links">
+      <%= link_to 'Sign Up', signup_path %>
+    </div>
+  </div>
+</div>
