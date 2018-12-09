@@ -14,13 +14,12 @@ class HeightsController < ApplicationController
   end
 
   def create
-    height = Height.new(height_params)
-    height.user = current_user
-    if height.save
+    @height = Height.new(height_params)
+    @height.user = current_user
+    if @height.save
       flash[:success] = "Height saved!"
       redirect_to heights_path
     else
-      flash[:danger] = "Could not save the height! Please try again."
       render :new
     end
   end
