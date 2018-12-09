@@ -52,4 +52,22 @@ RSpec.describe Height, type: :model do
     subject { height }
     it { is_expected.not_to be_valid }
   end
+
+  context "when measured at is after today" do
+    before do
+      height.measured_at = Date.today + 1
+    end
+
+    subject { height }
+    it { is_expected.not_to be_valid }
+  end
+
+  context "when measured at is before 1900" do
+    before do
+      height.measured_at = Date.new(1899, 12, 31)
+    end
+
+    subject { height }
+    it { is_expected.not_to be_valid }
+  end
 end

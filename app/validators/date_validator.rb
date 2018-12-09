@@ -1,5 +1,6 @@
 class DateValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
+    return if value.nil?
     after = options[:after] || Date.new(1900, 1, 1)
     before = options[:before] || Date.today
     invalidate(record, attribute) unless value.between?(after, before)
