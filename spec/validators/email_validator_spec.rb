@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-class Validatable
+class EmailValidatable
   include ActiveModel::Validations
   validates :email, email: true
   attr_accessor :email
 end
 
 RSpec.describe EmailValidator, type: :validator do
-  subject { Validatable.new }
+  subject { EmailValidatable.new }
 
   context "with valid email" do
     before do
