@@ -1,0 +1,24 @@
+<%= form_for(@weight, class: 'simple_form') do |form| %>
+  <% if @weight.errors.any? %>
+    <ul>
+      <% @weight.errors.full_messages.each do |error_message| %>
+        <li class="center red-text"><%= error_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <div class="form-inputs row">
+    <div class="input-field col s12 measurement weight_measurement">
+      <%= form.number_field :measurement, class: 'validate measurement required', step: '1', value: @weight.measurement || '75', min: 20, max: 500 %>
+      <%= form.label :measurement, class: 'measurement' %>
+    </div>
+
+    <div class="input-field col s12 measured_at weight_measured_at">
+      <%= form.date_field :measured_at, class: 'validate measured_at required', value: @weight.measured_at || Date.today, min: '1900-01-01', max: Date.today %>
+      <%= form.label :measured_at, class: 'measured_at' %>
+    </div>
+
+    <div class="center">
+      <%= form.submit 'Confirm', class: 'btn-large blue' %>
+    </div>
+  </div>
+<% end %>

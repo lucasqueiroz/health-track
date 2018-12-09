@@ -7,7 +7,7 @@ class WeightsController < ApplicationController
   end
 
   def new
-    @height = Weight.new
+    @weight = Weight.new
   end
 
   def edit
