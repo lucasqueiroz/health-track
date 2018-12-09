@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   def index
+    redirect_to root_path
   end
 
   def show
@@ -18,7 +19,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to root_path
+      flash[:success] = "User created! You may now log in."
+      redirect_to login_path
     else
       render :new
     end

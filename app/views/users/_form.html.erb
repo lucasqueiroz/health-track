@@ -1,0 +1,48 @@
+<div class="login-form">
+  <div class="card hoverable">
+    <div class="card-content">
+      <span class="card-title center">Sign Up</span>
+      <div class="divider"></div>
+      <br>
+      <%= form_for(@user, class: 'simple_form') do |form| %>
+        <% if @user.errors.any? %>
+          <ul>
+            <% @user.errors.full_messages.each do |error_message| %>
+              <li class="center red-text"><%= error_message %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        <div class="form-inputs row">
+          <div class="input-field col s12 name user_name">
+            <%= form.text_field :name, class: 'validate name required' %>
+            <%= form.label :name, class: 'name' %>
+          </div>
+
+          <div class="input-field col s12 email user_email">
+            <%= form.text_field :email, class: 'validate email required' %>
+            <%= form.label :email, class: 'email' %>
+          </div>
+
+          <div class="input-field col s12 birthday user_birthday">
+            <%= form.date_field :birthday, class: 'validate birthday required', min: '1900-01-01', max: '2005-01-01' %>
+            <%= form.label :birthday, class: 'birthday' %>
+          </div>
+
+          <div class="input-field col s12 password user_password">
+            <%= form.password_field :password, class: 'validate password required' %>
+            <%= form.label :password, class: 'password' %>
+          </div>
+
+          <div class="input-field col s12 password session_password">
+            <%= form.password_field :password_confirmation, class: 'validate password_confirmation required' %>
+            <%= form.label :password_confirmation, class: 'password_confirmation' %>
+          </div>
+
+          <div class="center">
+            <%= form.submit 'Sign Up', class: 'btn-large blue' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
