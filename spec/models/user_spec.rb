@@ -61,4 +61,22 @@ RSpec.describe User, type: :model do
     subject { user }
     it { is_expected.not_to be_valid }
   end
+
+  context "when birthday is after 01/01/2005" do
+    before do
+      user.birthday = Date.new(2005, 1, 2)
+    end
+
+    subject { user }
+    it { is_expected.not_to be_valid }
+  end
+
+  context "when birthday is before 1900" do
+    before do
+      user.birthday = Date.new(1899, 12, 31)
+    end
+
+    subject { user }
+    it { is_expected.not_to be_valid }
+  end
 end
