@@ -4,6 +4,7 @@ RUN apt-get update && \
     apt-get install -y nodejs
 
 ENV APP_HOME /app
+ENV RAILS_ENV development
 
 RUN mkdir $APP_HOME
 COPY . $APP_HOME
