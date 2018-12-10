@@ -1,0 +1,23 @@
+<header class="navbar-fixed">
+  <nav class="teal darken-1">
+    <div class="nav-wrapper container">
+      <%= link_to 'Health Track', root_path, class: 'brand-logo' %>
+      <ul class="right">
+        <% if logged_in? %>
+          <%= render partial: 'shared/logged_in_buttons' %>
+        <% else %>
+          <%= render partial: 'shared/logged_out_buttons' %>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+</header>
+<% unless flash.empty? %>
+  <div class="row">
+    <div class="col s6 offset-s3">
+      <% flash.each do |type, message| %>
+        <div class="alert alert-<%= type %>"><%= message %></div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

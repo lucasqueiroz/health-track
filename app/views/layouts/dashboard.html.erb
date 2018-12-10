@@ -10,34 +10,7 @@
   </head>
 
   <body class="dashboard">
-    <header class="navbar-fixed">
-      <nav class="teal darken-1">
-        <div class="nav-wrapper container">
-          <%= link_to 'Health Track', root_path, class: 'brand-logo' %>
-          <ul class="right">
-            <% if logged_in? %>
-              <li><%= link_to 'Height List', heights_path %></li>
-              <li><%= link_to 'Weight List', weights_path %></li>
-              <li><%= link_to 'Workout List', workouts_path %></li>
-              <li><%= link_to 'Food List', foods_path %></li>
-              <li><%= link_to 'Sign Out', logout_path, method: :delete %></li>
-            <% else %>
-              <li><%= link_to 'Sign In', login_path %></li>
-              <li><%= link_to 'Sign Up', signup_path %></li>
-            <% end %>
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <% unless flash.empty? %>
-      <div class="row">
-        <div class="col s6 offset-s3">
-          <% flash.each do |type, message| %>
-            <div class="alert alert-<%= type %>"><%= message %></div>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
+    <%= render partial: 'shared/header' %>
     <%= yield %>
   </body>
 </html>
