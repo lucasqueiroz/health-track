@@ -12,4 +12,8 @@ Rails.application.routes.draw do
   resources :weights, except: [:show]
   resources :workouts, except: [:show]
   resources :foods, except: [:show]
+
+  namespace :api do
+    resources :users
+  end
 end
