@@ -17,7 +17,7 @@ module Api
       if @user.save
         json_response(@user)
       else
-        render json: { errors: @user.errors.full_messages }
+        json_error_response(@user)
       end
     end
 
@@ -25,7 +25,7 @@ module Api
       if @user.update(user_params)
         json_response(@user)
       else
-        render json: { errors: @user.errors.full_messages }
+        json_error_response(@user)
       end
     end
 
