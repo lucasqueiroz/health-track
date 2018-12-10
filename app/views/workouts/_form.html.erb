@@ -1,0 +1,29 @@
+<%= form_for(@workout, class: 'simple_form') do |form| %>
+  <% if @workout.errors.any? %>
+    <ul>
+      <% @workout.errors.full_messages.each do |error_message| %>
+        <li class="center red-text"><%= error_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <div class="form-inputs row">
+    <div class="input-field col s12 name workout_name">
+      <%= form.text_field :name, class: 'validate name required', step: '1', value: @workout.name || '' %>
+      <%= form.label :name, class: 'name' %>
+    </div>
+
+    <div class="input-field col s12 calories workout_calories">
+      <%= form.number_field :calories, class: 'validate calories required', step: '1', value: @workout.calories || '75', min: 0, max: 10_000 %>
+      <%= form.label :calories, class: 'calories' %>
+    </div>
+
+    <div class="input-field col s12 occurred_at workout_occurred_at">
+      <%= form.date_field :occurred_at, class: 'validate occurred_at required', value: @workout.occurred_at || Date.today, min: '1900-01-01', max: Date.today %>
+      <%= form.label :occurred_at, class: 'occurred_at' %>
+    </div>
+
+    <div class="center">
+      <%= form.submit 'Confirm', class: 'btn-large blue' %>
+    </div>
+  </div>
+<% end %>

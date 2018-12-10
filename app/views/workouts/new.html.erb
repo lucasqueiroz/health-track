@@ -1,2 +1,11 @@
-<h1>Workouts#new</h1>
-<p>Find me in app/views/workouts/new.html.erb</p>
+<main style="padding-top: 4rem">
+  <section id="workout">
+    <div class="container-fluid pt-3">
+      <div class="row">
+        <div class="col s4 offset-s4">
+          <%= render 'add_workout', workout: @workout %>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
