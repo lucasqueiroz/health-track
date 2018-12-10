@@ -1,0 +1,17 @@
+<table>
+  <tr>
+    <th class="center">Food</th>
+    <th class="center">Calories</th>
+    <th class="center">Date</th>
+    <th colspan="2" class="center"></th>
+  </tr>
+  <% @foods.each do |food| %>
+    <tr>
+      <td class="center"><%= food.name %></td>
+      <td class="center"><%= food.calories %></td>
+      <td class="center"><%= food.occurred_at %></td>
+      <td class="center"><%= link_to 'Delete', food, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td class="center"><%= link_to 'Edit', edit_food_path(food) %></td>
+    </tr>
+  <% end %>
+</table>

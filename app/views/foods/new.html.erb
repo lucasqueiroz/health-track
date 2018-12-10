@@ -1,2 +1,11 @@
-<h1>Foods#new</h1>
-<p>Find me in app/views/foods/new.html.erb</p>
+<main style="padding-top: 4rem">
+  <section id="food">
+    <div class="container-fluid pt-3">
+      <div class="row">
+        <div class="col s4 offset-s4">
+          <%= render 'add_food', food: @food %>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
