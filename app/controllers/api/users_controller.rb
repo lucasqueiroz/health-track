@@ -1,6 +1,6 @@
 module Api
   class UsersController < Api::ApiController
-    before_action :set_user, only: [:show, :update]
+    before_action :set_user, only: [:show, :update, :destroy]
 
     def index
       render json: User.all
@@ -25,6 +25,11 @@ module Api
       else
         render json: { errors: @user.errors.full_messages }
       end
+    end
+
+    def destroy
+      @user.destroy
+      head :no_content
     end
 
     private

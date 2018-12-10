@@ -100,4 +100,14 @@ RSpec.describe Api::UsersController, type: :controller do
     end
   end
 
+  describe "DELETE #destroy" do
+    before do
+      delete :destroy, params: { id: user.id }
+    end
+
+    it "returns http no content" do
+      expect(response).to have_http_status(:no_content)
+    end
+  end
+
 end
