@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   resources :heights, except: [:show]
   resources :weights, except: [:show]
   resources :workouts, except: [:show]
+  resources :foods, except: [:show]
 end
