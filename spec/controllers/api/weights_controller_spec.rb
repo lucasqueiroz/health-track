@@ -114,7 +114,7 @@ RSpec.describe Api::WeightsController, type: :controller do
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        post :create, params: { height: { measurement: 75, measured_at: '22/10/2018' } }
+        post :create, params: { weight: { measurement: 75, measured_at: '22/10/2018' } }
       end
 
       it "returns http success" do
