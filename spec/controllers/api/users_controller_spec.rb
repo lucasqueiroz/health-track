@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe Api::UsersController, type: :controller do
   include ApiSpecHelper
 
+  before do
+    controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(user.email, user.password)
+  end
+
   let!(:user) { create(:user) }
 
   describe "GET #index" do
@@ -32,6 +36,23 @@ RSpec.describe Api::UsersController, type: :controller do
     it "returns valid JSON body" do
       expect(json).not_to be_empty
       expect(json['id']).to eq(user.id)
+    end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        get :show, params: { id: user.id }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
     end
   end
 
@@ -98,6 +119,23 @@ RSpec.describe Api::UsersController, type: :controller do
         expect(json['errors']).not_to be_empty
       end
     end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        patch :update, params: { id: user.id, user: { name: 'Lucas Queiroz', email: 'new_email@gmail.com', birthday: '26/02/1997' } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
+    end
   end
 
   describe "DELETE #destroy" do
@@ -107,6 +145,23 @@ RSpec.describe Api::UsersController, type: :controller do
 
     it "returns http no content" do
       expect(response).to have_http_status(:no_content)
+    end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        delete :destroy, params: { id: user.id }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
     end
   end
 
