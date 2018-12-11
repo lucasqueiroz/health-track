@@ -5,7 +5,7 @@ module Api
     before_action :set_height, only: [:show, :update, :destroy]
 
     def index
-      json_response(@authenticated_user.heights)
+      json_response(Height.from_user(@authenticated_user))
     end
 
     def show

@@ -1,5 +1,5 @@
 class Weight < ApplicationRecord
-  scope :all_from_user, -> (user) { where user: user }
+  scope :from_user, -> (user) { where user: user }
 
   belongs_to :user
   validates :measurement, presence: true, numericality: true, inclusion: 20..500
