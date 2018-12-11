@@ -22,17 +22,17 @@ module Api
       end
     end
 
-    def destroy
-      @weight.destroy
-      head :no_content
-    end
-
     def update
       if @weight.update(weight_params)
         json_response(@weight)
       else
         json_error_response(@weight)
       end
+    end
+
+    def destroy
+      @weight.destroy
+      head :no_content
     end
 
     private
