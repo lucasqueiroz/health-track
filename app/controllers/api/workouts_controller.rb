@@ -2,7 +2,7 @@ module Api
   class WorkoutsController < Api::ApiController
 
     before_action :authenticate_user
-    before_action :set_workout, only: [:show]
+    before_action :set_workout, only: [:show, :update]
 
     def index
       json_response(Workout.from_user(@authenticated_user))
@@ -19,6 +19,14 @@ module Api
         json_response(workout)
       else
         json_error_response(workout)
+      end
+    end
+
+    def update
+      if @workout.update(workout_params)
+        json_response(@workout)
+      else
+        json_error_response(@workout)
       end
     end
 
