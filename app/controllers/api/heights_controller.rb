@@ -1,8 +1,8 @@
 module Api
   class HeightsController < Api::ApiController
 
-    before_action :authenticate_user, only: [:index, :show, :create]
-    before_action :set_height, only: [:show]
+    before_action :authenticate_user
+    before_action :set_height, only: [:show, :update]
 
     def index
       json_response(@authenticated_user.heights)
@@ -23,6 +23,18 @@ module Api
         json_response(height)
       else
         json_error_response(height)
+      end
+    end
+
+    def update
+      if @height.present?
+        if @height.update(height_params)
+          json_response(@height)
+        else
+          json_error_response(@height)
+        end
+      else
+        json_not_found_response
       end
     end
 
