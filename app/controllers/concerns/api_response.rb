@@ -3,11 +3,16 @@ module ApiResponse
     render json: object
   end
 
-  def json_error_response(object)
-    render json: { errors: object.errors.full_messages }
+  def json_error_response(object, status = :ok)
+    messages = object.is_a?(String) ? [object] : object.errors.full_messages
+    render json: { errors: messages }, status: status
   end
 
   def json_unauthorized_response
-    render json: { errors: ['User not authorized!'] }
+    json_error_response('User not authorized!')
+  end
+
+  def json_not_found_response
+    json_error_response('Not found!', :not_found)
   end
 end
