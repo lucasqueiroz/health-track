@@ -93,4 +93,40 @@ RSpec.describe Api::WorkoutsController, type: :controller do
       end
     end
   end
+
+  describe "POST #create" do
+    context "when workout is valid" do
+      before do
+        post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['name']).to eq('Running')
+        expect(json['calories']).to eq(500)
+        expect(json['occurred_at']).to eq('2018-10-22')
+      end
+    end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
+    end
+  end
 end
