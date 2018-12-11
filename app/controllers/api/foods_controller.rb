@@ -12,11 +12,25 @@ module Api
       json_response(@food)
     end
 
+    def create
+      food = Food.new(food_params)
+      food.user_id = @authenticated_user.id
+      if food.save
+        json_response(food)
+      else
+        json_error_response(food)
+      end
+    end
+
     private
 
     def set_food
       @food = Food.find_by(id: params[:id], user_id: @authenticated_user.id)
       json_not_found_response unless @food.present?
+    end
+
+    def food_params
+      params.require(:food).permit(:name, :calories, :occurred_at)
     end
   end
 end
