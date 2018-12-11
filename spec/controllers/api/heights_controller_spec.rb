@@ -8,8 +8,10 @@ RSpec.describe Api::HeightsController, type: :controller do
   end
 
   let!(:height) { create(:height) }
+  let!(:different_height) { create(:different_height) }
   let(:user) { build(:user) }
-  let(:different_user) { create(:different_user) }
+  let(:different_user) { build(:different_user) }
+  let(:third_user) { create(:third_user) }
 
   describe "GET #index" do
     before do
@@ -197,6 +199,66 @@ RSpec.describe Api::HeightsController, type: :controller do
     context "when resource does not exist" do
       before do
         patch :update, params: { id: Height.last.id + 1, height: { measurement: 1.89 } }
+      end
+
+      it "returns http not found" do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('Not found!')
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    before do
+      delete :destroy, params: { id: height.id }
+    end
+
+    it "returns http no content" do
+      expect(response).to have_http_status(:no_content)
+    end
+
+    context "when user is not the owner of the resource" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(third_user.email, third_user.password)
+        delete :destroy, params: { id: different_height.id }
+      end
+
+      it "returns http not found" do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('Not found!')
+      end
+    end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        delete :destroy, params: { id: different_height.id }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
+    end
+
+    context "when resource does not exist" do
+      before do
+        delete :destroy, params: { id: height.id }
       end
 
       it "returns http not found" do
