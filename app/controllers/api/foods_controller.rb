@@ -2,7 +2,7 @@ module Api
   class FoodsController < Api::ApiController
 
     before_action :authenticate_user
-    before_action :set_food, only: [:show, :update]
+    before_action :set_food, only: [:show, :update, :destroy]
 
     def index
       json_response(Food.from_user(@authenticated_user))
@@ -28,6 +28,11 @@ module Api
       else
         json_error_response(@food)
       end
+    end
+
+    def destroy
+      @food.destroy
+      head :no_content
     end
 
     private

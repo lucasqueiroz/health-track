@@ -213,4 +213,64 @@ RSpec.describe Api::FoodsController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    before do
+      delete :destroy, params: { id: food.id }
+    end
+
+    it "returns http no content" do
+      expect(response).to have_http_status(:no_content)
+    end
+
+    context "when user is not the owner of the resource" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(third_user.email, third_user.password)
+        delete :destroy, params: { id: different_food.id }
+      end
+
+      it "returns http not found" do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('Not found!')
+      end
+    end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        delete :destroy, params: { id: different_food.id }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
+    end
+
+    context "when resource does not exist" do
+      before do
+        delete :destroy, params: { id: food.id }
+      end
+
+      it "returns http not found" do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('Not found!')
+      end
+    end
+  end
 end
