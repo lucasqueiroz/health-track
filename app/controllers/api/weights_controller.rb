@@ -2,7 +2,7 @@ module Api
   class WeightsController < Api::ApiController
 
     before_action :authenticate_user
-    before_action :set_weight, only: [:show]
+    before_action :set_weight, only: [:show, :update]
 
     def index
       json_response(Weight.from_user(@authenticated_user))
@@ -19,6 +19,14 @@ module Api
         json_response(weight)
       else
         json_error_response(weight)
+      end
+    end
+
+    def update
+      if @weight.update(weight_params)
+        json_response(@weight)
+      else
+        json_error_response(@weight)
       end
     end
 

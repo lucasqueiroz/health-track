@@ -128,4 +128,87 @@ RSpec.describe Api::WeightsController, type: :controller do
       end
     end
   end
+
+  describe "PATCH #update" do
+    context "when updated information is valid" do
+      before do
+        patch :update, params: { id: weight.id, weight: { measurement: 90 } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['measurement']).to eq(90)
+        expect(json['measured_at']).to eq(weight.measured_at.to_s)
+      end
+    end
+
+    context "when updated information is invalid" do
+      before do
+        patch :update, params: { id: weight.id, weight: { measurement: -90 } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+      end
+    end
+
+    context "when user is not the owner of the resource" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(different_user.email, different_user.password)
+        patch :update, params: { id: weight.id, weight: { measurement: 90 } }
+      end
+
+      it "returns http not found" do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('Not found!')
+      end
+    end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        patch :update, params: { id: weight.id, weight: { measurement: 90 } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
+    end
+
+    context "when resource does not exist" do
+      before do
+        patch :update, params: { id: Weight.last.id + 1, weight: { measurement: 90 } }
+      end
+
+      it "returns http not found" do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('Not found!')
+      end
+    end
+  end
 end
