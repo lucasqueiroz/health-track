@@ -17,5 +17,6 @@ Rails.application.routes.draw do
     resources :users
     resources :heights
     resources :weights
+    resources :workouts
   end
 end
