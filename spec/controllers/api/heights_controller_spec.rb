@@ -122,7 +122,6 @@ RSpec.describe Api::HeightsController, type: :controller do
       end
 
       it "returns valid JSON body" do
-        p json
         expect(json).not_to be_empty
         expect(json['errors']).not_to be_empty
         expect(json['errors']).to include('User not authorized!')
