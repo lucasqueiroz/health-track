@@ -91,4 +91,40 @@ RSpec.describe Api::HeightsController, type: :controller do
       end
     end
   end
+
+  describe "POST #create" do
+    context "when height is valid" do
+      before do
+        post :create, params: { height: { measurement: 1.75, measured_at: '22/10/2018' } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['measurement']).to eq(1.75)
+        expect(json['measured_at']).to eq('2018-10-22')
+      end
+    end
+
+    context "when user is not authorized" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
+        post :create, params: { height: { measurement: 1.75, measured_at: '22/10/2018' } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns valid JSON body" do
+        p json
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
+    end
+  end
 end

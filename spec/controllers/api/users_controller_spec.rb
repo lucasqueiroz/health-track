@@ -23,6 +23,7 @@ RSpec.describe Api::UsersController, type: :controller do
     it "returns valid JSON body" do
       expect(json).not_to be_empty
       expect(json.size).to eq(3)
+      expect(json.first['password_digest']).to be_nil
     end
   end
 
@@ -38,6 +39,7 @@ RSpec.describe Api::UsersController, type: :controller do
     it "returns valid JSON body" do
       expect(json).not_to be_empty
       expect(json['id']).to eq(user.id)
+      expect(json['password_digest']).to be_nil
     end
 
     context "when user is not the owner of the account" do

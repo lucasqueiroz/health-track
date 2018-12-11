@@ -2,7 +2,7 @@ module Api
   class HeightsController < Api::ApiController
     include ApiResponse
 
-    before_action :authenticate_user, only: [:index, :show]
+    before_action :authenticate_user, only: [:index, :show, :create]
     before_action :set_height, only: [:show]
 
     def index
@@ -17,10 +17,24 @@ module Api
       end
     end
 
+    def create
+      height = Height.new(height_params)
+      height.user_id = @authenticated_user.id
+      if height.save
+        json_response(height)
+      else
+        json_error_response(height)
+      end
+    end
+
     private
 
     def set_height
       @height = Height.find_by(id: params[:id], user: @authenticated_user)
+    end
+
+    def height_params
+      params.require(:height).permit(:measurement, :measured_at)
     end
   end
 end

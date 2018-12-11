@@ -1,6 +1,6 @@
 module ApiResponse
-  def json_response(object)
-    render json: object
+  def json_response(object, except = [])
+    render json: object, except: except
   end
 
   def json_error_response(object, status = :ok)

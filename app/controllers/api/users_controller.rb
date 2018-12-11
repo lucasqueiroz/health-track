@@ -7,11 +7,11 @@ module Api
     wrap_parameters :user, include: [:name, :email, :birthday, :password, :password_confirmation]
 
     def index
-      json_response(User.all)
+      json_response(User.all, except = :password_digest)
     end
 
     def show
-      json_response(@user)
+      json_response(@user, except = :password_digest)
     end
 
     def create
