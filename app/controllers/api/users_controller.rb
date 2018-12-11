@@ -2,6 +2,7 @@ module Api
   class UsersController < Api::ApiController
     include ApiResponse
 
+    before_action :authenticate_user, only: [:index, :show, :update, :destroy]
     before_action :set_user, only: [:show, :update, :destroy]
     wrap_parameters :user, include: [:name, :email, :birthday, :password, :password_confirmation]
 
@@ -38,7 +39,9 @@ module Api
     private
 
     def set_user
-      @user = User.find(params[:id])
+      user = User.find(params[:id])
+      verify_ownership(user)
+      @user = user
     end
 
     def user_params
