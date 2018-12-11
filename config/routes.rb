@@ -16,5 +16,6 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users
     resources :heights
+    resources :weights
   end
 end
