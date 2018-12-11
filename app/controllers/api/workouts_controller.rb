@@ -2,7 +2,7 @@ module Api
   class WorkoutsController < Api::ApiController
 
     before_action :authenticate_user
-    before_action :set_workout, only: [:show, :update]
+    before_action :set_workout, only: [:show, :update, :destroy]
 
     def index
       json_response(Workout.from_user(@authenticated_user))
@@ -28,6 +28,11 @@ module Api
       else
         json_error_response(@workout)
       end
+    end
+
+    def destroy
+      @workout.destroy
+      head :no_content
     end
 
     private
