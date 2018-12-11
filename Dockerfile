@@ -5,6 +5,7 @@ RUN apt-get update && \
 
 ENV APP_HOME /app
 ENV RAILS_ENV development
+ENV DB_HOST db
 
 RUN mkdir $APP_HOME
 COPY . $APP_HOME
