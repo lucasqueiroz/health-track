@@ -9,11 +9,7 @@ module Api
     end
 
     def show
-      if @height.present?
-        json_response(@height)
-      else
-        json_not_found_response
-      end
+      json_response(@height)
     end
 
     def create
@@ -27,30 +23,23 @@ module Api
     end
 
     def update
-      if @height.present?
-        if @height.update(height_params)
-          json_response(@height)
-        else
-          json_error_response(@height)
-        end
+      if @height.update(height_params)
+        json_response(@height)
       else
-        json_not_found_response
+        json_error_response(@height)
       end
     end
 
     def destroy
-      if @height.present?
-        @height.destroy
-        head :no_content
-      else
-        json_not_found_response
-      end
+      @height.destroy
+      head :no_content
     end
 
     private
 
     def set_height
-      @height = Height.find_by(id: params[:id], user: @authenticated_user)
+      @height = Height.find_by(id: params[:id], user_id: @authenticated_user.id)
+      json_not_found_response unless @height.present?
     end
 
     def height_params
