@@ -18,5 +18,6 @@ Rails.application.routes.draw do
     resources :heights
     resources :weights
     resources :workouts
+    resources :foods
   end
 end
