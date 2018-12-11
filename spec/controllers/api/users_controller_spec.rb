@@ -8,6 +8,8 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   let!(:user) { create(:user) }
+  let!(:different_user) { create(:different_user) }
+  let!(:third_user) { create(:third_user) }
 
   describe "GET #index" do
     before do
@@ -20,7 +22,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     it "returns valid JSON body" do
       expect(json).not_to be_empty
-      expect(json.size).to eq(1)
+      expect(json.size).to eq(3)
     end
   end
 
@@ -36,6 +38,23 @@ RSpec.describe Api::UsersController, type: :controller do
     it "returns valid JSON body" do
       expect(json).not_to be_empty
       expect(json['id']).to eq(user.id)
+    end
+
+    context "when user is not the owner of the account" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(third_user.email, third_user.password)
+        get :show, params: { id: different_user.id }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
     end
 
     context "when user is not authorized" do
@@ -120,6 +139,23 @@ RSpec.describe Api::UsersController, type: :controller do
       end
     end
 
+    context "when user is not the owner of the account" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(third_user.email, third_user.password)
+        patch :update, params: { id: different_user.id, user: { name: 'Lucas Queiroz', email: 'new_email@gmail.com', birthday: '26/02/1997' } }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
+    end
+
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
@@ -145,6 +181,23 @@ RSpec.describe Api::UsersController, type: :controller do
 
     it "returns http no content" do
       expect(response).to have_http_status(:no_content)
+    end
+
+    context "when user is not the owner of the account" do
+      before do
+        controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(third_user.email, third_user.password)
+        delete :destroy, params: { id: different_user.id }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns valid JSON body" do
+        expect(json).not_to be_empty
+        expect(json['errors']).not_to be_empty
+        expect(json['errors']).to include('User not authorized!')
+      end
     end
 
     context "when user is not authorized" do
