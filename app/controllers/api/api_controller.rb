@@ -1,7 +1,7 @@
 module Api
   class ApiController < ActionController::API
     include ActionController::HttpAuthentication::Basic::ControllerMethods
-    include ApiAuthentication
+    include ApiAuthentication, ApiResponse
 
     after_action :invalidate_user
 

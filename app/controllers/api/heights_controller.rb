@@ -1,6 +1,5 @@
 module Api
   class HeightsController < Api::ApiController
-    include ApiResponse
 
     before_action :authenticate_user, only: [:index, :show, :create]
     before_action :set_height, only: [:show]
