@@ -12,8 +12,7 @@ RSpec.describe UsersController, type: :controller do
   describe "POST #create" do
     it "creates a user when information is valid" do
       post :create, params:
-        { user: { name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com',
-           birthday: '26/02/1997', height: 1.73, weight: 102, password: 'pass' } }
+        { user: { name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com', birthday: '26/02/1997', password: 'pass' } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(login_path)
@@ -22,8 +21,7 @@ RSpec.describe UsersController, type: :controller do
 
     it "fails when information is invalid" do
       post :create, params:
-        { user: { name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com',
-           birthday: '26/02/1997', height: 1.73, weight: 102 } }
+        { user: { name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com', birthday: '26/02/1997' } }
 
       expect(response).to have_http_status(:ok)
       expect(response).to render_template(:new)
