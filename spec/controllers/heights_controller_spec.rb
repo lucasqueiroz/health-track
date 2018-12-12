@@ -30,6 +30,17 @@ RSpec.describe HeightsController, type: :controller do
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(heights_path)
     end
+
+    context "when saving fails" do
+      before do
+        allow_any_instance_of(Height).to receive(:save).and_return(false)
+        post :create, params: { height: { measurement: 1.73, measured_at: '22/10/2018' } }
+      end
+
+      it "renders the new height page" do
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
   describe "GET #edit" do
@@ -46,6 +57,17 @@ RSpec.describe HeightsController, type: :controller do
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(heights_path)
       expect(Height.last.measurement).to eq(1.63)
+    end
+
+    context "when updating fails" do
+      before do
+        allow_any_instance_of(Height).to receive(:update).and_return(false)
+        patch :update, params: { id: height.id, height: { measurement: 1.63 } }
+      end
+
+      it "renders the edit height page" do
+        expect(response).to render_template(:edit)
+      end
     end
   end
 
