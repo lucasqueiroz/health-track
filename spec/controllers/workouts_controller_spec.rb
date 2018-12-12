@@ -30,6 +30,17 @@ RSpec.describe WorkoutsController, type: :controller do
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(workouts_path)
     end
+
+    context "when saving fails" do
+      before do
+        allow_any_instance_of(Workout).to receive(:save).and_return(false)
+        post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+      end
+
+      it "renders the new workout page" do
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
   describe "GET #edit" do
@@ -46,6 +57,17 @@ RSpec.describe WorkoutsController, type: :controller do
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(workouts_path)
       expect(Workout.last.calories).to eq(550)
+    end
+
+    context "when updating fails" do
+      before do
+        allow_any_instance_of(Workout).to receive(:update).and_return(false)
+        patch :update, params: { id: workout.id, workout: { calories: 550 } }
+      end
+
+      it "renders the edit workout page" do
+        expect(response).to render_template(:edit)
+      end
     end
   end
 
