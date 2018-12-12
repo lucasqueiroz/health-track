@@ -7,6 +7,17 @@ RSpec.describe UsersController, type: :controller do
       get :new
       expect(response).to have_http_status(:success)
     end
+
+    context "when user is logged in" do
+      before do
+        allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(true)
+        get :new
+      end
+
+      it "redirects the user to the dashboard" do
+        expect(response).to redirect_to(root_path)
+      end
+    end
   end
 
   describe "POST #create" do
