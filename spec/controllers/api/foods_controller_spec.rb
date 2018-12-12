@@ -128,6 +128,18 @@ RSpec.describe Api::FoodsController, type: :controller do
         expect(json['errors']).to include('User not authorized!')
       end
     end
+
+    context "when saving fails" do
+      before do
+        allow_any_instance_of(Food).to receive(:save).and_return(false)
+        post :create, params: { food: { name: 'Poutine', calories: 470, occurred_at: '22/10/2018' } }
+      end
+
+      it "returns error JSON" do
+        expect(json).not_to be_empty
+        expect(json).to have_key('errors')
+      end
+    end
   end
 
   describe "PATCH #update" do

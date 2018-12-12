@@ -107,6 +107,18 @@ RSpec.describe Api::UsersController, type: :controller do
         expect(json['errors']).not_to be_empty
       end
     end
+
+    context "when saving fails" do
+      before do
+        allow_any_instance_of(User).to receive(:save).and_return(false)
+        post :create, params: { user: { name: 'Lucas Queiroz', email: 'invalid@email', birthday: '26/02/1997', password: 'password' } }
+      end
+
+      it "returns error JSON" do
+        expect(json).not_to be_empty
+        expect(json).to have_key('errors')
+      end
+    end
   end
 
   describe "PATCH #update" do
