@@ -7,55 +7,64 @@ RSpec.describe SessionsHelper, type: :helper do
   describe ".log_in" do
     context "when logging in a valid user" do
       before do
-        log_in(user)
+        helper.log_in(user)
       end
 
-      subject { session[:user_id] }
-      it { is_expected.not_to be_nil }
+      it "has user id in session" do
+        expect(session[:user_id]).not_to be_nil
+      end
+    end
+  end
+
+  describe ".log_out" do
+    before do
+      helper.log_in(user)
+      helper.log_out
+    end
+
+    it "logs user out" do
+      expect(session).not_to have_key(:user_id)
+      expect(helper.current_user).to be_nil
     end
   end
 
   describe ".current_user" do
     context "when user is logged in" do
       before do
-        log_in(user)
+        session[:user_id] = user.id
       end
 
-      subject { current_user }
-      it { is_expected.to eq(user) }
+      it "returns correct user" do
+        expect(helper.current_user).to eq(user)
+      end
     end
 
-    context "when no user is logged in" do
-      subject { current_user }
-      it { is_expected.to be_nil }
+    context "when user is not logged in" do
+      it "returns nil user" do
+        expect(helper.current_user).to be_nil
+      end
     end
   end
 
   describe ".logged_in?" do
     context "when user is logged in" do
       before do
-        log_in(user)
+        allow_any_instance_of(SessionsHelper).to receive(:current_user).and_return(user)
       end
 
-      subject { logged_in? }
-      it { is_expected.to be true }
+      it "returns true" do
+        expect(helper.logged_in?).to be true
+      end
     end
 
-    context "when no user is logged in" do
-      subject { logged_in? }
-      it { is_expected.to be false }
-    end
-  end
+    context "when user is not logged in" do
+      before do
+        allow_any_instance_of(SessionsHelper).to receive(:current_user).and_return(nil)
+      end
 
-  describe ".log_out" do
-    before do
-      log_in(user)
-      log_out
-    end
-
-    it "logs user out" do
-      expect(session).not_to have_key(:user_id)
-      expect(current_user).to be_nil
+      it "returns true" do
+        expect(helper.logged_in?).to be false
+      end
     end
   end
 

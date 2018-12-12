@@ -14,12 +14,36 @@ RSpec.describe WorkoutsController, type: :controller do
       get :index
       expect(response).to have_http_status(:success)
     end
+
+    context "when user is not logged in" do
+      before do
+        allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false)
+        get :index
+      end
+
+      it "redirects user to login page" do
+        expect(response).to redirect_to(login_path)
+        expect(flash).not_to be_empty
+      end
+    end
   end
 
   describe "GET #new" do
     it "returns http success" do
       get :new
       expect(response).to have_http_status(:success)
+    end
+
+    context "when user is not logged in" do
+      before do
+        allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false)
+        get :new
+      end
+
+      it "redirects user to login page" do
+        expect(response).to redirect_to(login_path)
+        expect(flash).not_to be_empty
+      end
     end
   end
 
@@ -47,6 +71,18 @@ RSpec.describe WorkoutsController, type: :controller do
     it "returns http success" do
       get :edit, params: { id: workout.id }
       expect(response).to have_http_status(:success)
+    end
+
+    context "when user is not logged in" do
+      before do
+        allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false)
+        get :edit, params: { id: workout.id }
+      end
+
+      it "redirects user to login page" do
+        expect(response).to redirect_to(login_path)
+        expect(flash).not_to be_empty
+      end
     end
   end
 
