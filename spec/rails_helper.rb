@@ -1,8 +1,11 @@
 require 'spec_helper'
 require 'api_spec_helper'
-
 require 'simplecov'
-SimpleCov.start
+
+SimpleCov.start 'rails' do
+  add_filter 'application_cable'
+  add_filter 'jobs'
+end
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
