@@ -30,6 +30,17 @@ RSpec.describe WeightsController, type: :controller do
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(weights_path)
     end
+
+    context "when saving fails" do
+      before do
+        allow_any_instance_of(Weight).to receive(:save).and_return(false)
+        post :create, params: { weight: { measurement: 25, measured_at: '22/10/2018' } }
+      end
+
+      it "renders the new weight page" do
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
   describe "GET #edit" do
@@ -46,6 +57,17 @@ RSpec.describe WeightsController, type: :controller do
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(weights_path)
       expect(Weight.last.measurement).to eq(100)
+    end
+
+    context "when updating fails" do
+      before do
+        allow_any_instance_of(Weight).to receive(:update).and_return(false)
+        patch :update, params: { id: weight.id, weight: { measurement: 100 } }
+      end
+
+      it "renders the edit weight page" do
+        expect(response).to render_template(:edit)
+      end
     end
   end
 
