@@ -32,14 +32,14 @@ RSpec.describe WorkoutsController, type: :controller do
     end
   end
 
-  describe "#GET edit" do
+  describe "GET #edit" do
     it "returns http success" do
       get :edit, params: { id: workout.id }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "#POST update" do
+  describe "POST #update" do
     it "edits a workout when information is valid" do
       patch :update, params: { id: workout.id, workout: { name: 'Running', calories: 550, occurred_at: '22/10/2018' } }
 
@@ -49,7 +49,7 @@ RSpec.describe WorkoutsController, type: :controller do
     end
   end
 
-  describe "#DELETE destroy" do
+  describe "DELETE #destroy" do
     it "destroys a workout" do
       delete :destroy, params: { id: workout.id }
 

@@ -32,14 +32,14 @@ RSpec.describe HeightsController, type: :controller do
     end
   end
 
-  describe "#GET edit" do
+  describe "GET #edit" do
     it "returns http success" do
       get :edit, params: { id: height.id }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "#POST update" do
+  describe "POST #update" do
     it "edits a height when information is valid" do
       patch :update, params: { id: height.id, height: { measurement: 1.63, measured_at: '22/10/2018' } }
 
@@ -49,7 +49,7 @@ RSpec.describe HeightsController, type: :controller do
     end
   end
 
-  describe "#DELETE destroy" do
+  describe "DELETE #destroy" do
     it "destroys a height" do
       delete :destroy, params: { id: height.id }
 

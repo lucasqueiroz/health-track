@@ -32,14 +32,14 @@ RSpec.describe FoodsController, type: :controller do
     end
   end
 
-  describe "#GET edit" do
+  describe "GET #edit" do
     it "returns http success" do
       get :edit, params: { id: food.id }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "#POST update" do
+  describe "POST #update" do
     it "edits a food when information is valid" do
       patch :update, params: { id: food.id, food: { name: 'Poutine', calories: 745, occurred_at: '22/10/2018' } }
 
@@ -49,7 +49,7 @@ RSpec.describe FoodsController, type: :controller do
     end
   end
 
-  describe "#DELETE destroy" do
+  describe "DELETE #destroy" do
     it "destroys a food" do
       delete :destroy, params: { id: food.id }
 
