@@ -41,7 +41,7 @@ RSpec.describe HeightsController, type: :controller do
 
   describe "POST #update" do
     it "edits a height when information is valid" do
-      patch :update, params: { id: height.id, height: { measurement: 1.63, measured_at: '22/10/2018' } }
+      patch :update, params: { id: height.id, height: { measurement: 1.63 } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(heights_path)

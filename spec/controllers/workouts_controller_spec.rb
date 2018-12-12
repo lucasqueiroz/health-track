@@ -41,7 +41,7 @@ RSpec.describe WorkoutsController, type: :controller do
 
   describe "POST #update" do
     it "edits a workout when information is valid" do
-      patch :update, params: { id: workout.id, workout: { name: 'Running', calories: 550, occurred_at: '22/10/2018' } }
+      patch :update, params: { id: workout.id, workout: { calories: 550 } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(workouts_path)

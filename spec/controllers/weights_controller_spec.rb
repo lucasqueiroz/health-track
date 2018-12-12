@@ -41,7 +41,7 @@ RSpec.describe WeightsController, type: :controller do
 
   describe "POST #update" do
     it "edits a weight when information is valid" do
-      patch :update, params: { id: weight.id, weight: { measurement: 100, measured_at: '22/10/2018' } }
+      patch :update, params: { id: weight.id, weight: { measurement: 100 } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(weights_path)

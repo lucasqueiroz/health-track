@@ -112,7 +112,7 @@ RSpec.describe Api::UsersController, type: :controller do
   describe "PATCH #update" do
     context "when updated information is valid" do
       before do
-        patch :update, params: { id: user.id, user: { name: 'Lucas Queiroz', email: 'new_email@gmail.com', birthday: '26/02/1997' } }
+        patch :update, params: { id: user.id, user: { email: 'new_email@gmail.com' } }
       end
 
       it "returns http success" do
@@ -128,7 +128,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     context "when updated information is invalid" do
       before do
-        patch :update, params: { id: user.id, user: { name: 'Lucas Queiroz', email: 'new_email@wrong', birthday: '26/02/1997' } }
+        patch :update, params: { id: user.id, user: { email: 'new_email@wrong' } }
       end
 
       it "returns http success" do
@@ -144,7 +144,7 @@ RSpec.describe Api::UsersController, type: :controller do
     context "when user is not the owner of the account" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(third_user.email, third_user.password)
-        patch :update, params: { id: different_user.id, user: { name: 'Lucas Queiroz', email: 'new_email@gmail.com', birthday: '26/02/1997' } }
+        patch :update, params: { id: different_user.id, user: { email: 'new_email@gmail.com' } }
       end
 
       it "returns http success" do
@@ -161,7 +161,7 @@ RSpec.describe Api::UsersController, type: :controller do
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        patch :update, params: { id: user.id, user: { name: 'Lucas Queiroz', email: 'new_email@gmail.com', birthday: '26/02/1997' } }
+        patch :update, params: { id: user.id, user: { email: 'new_email@gmail.com' } }
       end
 
       it "returns http success" do

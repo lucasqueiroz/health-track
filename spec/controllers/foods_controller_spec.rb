@@ -41,7 +41,7 @@ RSpec.describe FoodsController, type: :controller do
 
   describe "POST #update" do
     it "edits a food when information is valid" do
-      patch :update, params: { id: food.id, food: { name: 'Poutine', calories: 745, occurred_at: '22/10/2018' } }
+      patch :update, params: { id: food.id, food: { calories: 745 } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(foods_path)
