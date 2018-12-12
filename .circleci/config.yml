@@ -7,8 +7,6 @@ jobs:
         environment:
           POSTGRES_USER: healthtrack
           POSTGRES_DB: healthtrack-test
-      environment:
-      RAILS_ENV: test
     steps:
       - checkout
       - restore_cache:
