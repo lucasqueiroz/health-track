@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'api_spec_helper'
 require 'simplecov'
+require 'simplecov-shield'
+
+SimpleCov.formatter = SimpleCov::Formatter::ShieldFormatter
 
 SimpleCov.start 'rails' do
   add_filter 'application_cable'

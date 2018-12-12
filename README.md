@@ -1,24 +1,36 @@
-# README
+# Health Track ![](/coverage/coverage.svg)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Health Track is a system for you to log your weight, height, workouts and eaten foods!
+It makes it easier for you to keep track of your health.
 
-Things you may want to cover:
+## How to run it locally?
 
-* Ruby version
+Health Track requires you to have docker and docker-compose installed on your machine.
 
-* System dependencies
+1. Build the project
+    1. Run `docker-compose build`
+2. Migrate the database
+    1. Run `docker-compose run web rake db:migrate`
+3. Start the server
+    1. Run `docker-compose up`
+    2. You can now go to http://localhost:3000 and check the interface
 
-* Configuration
 
-* Database creation
+## How to run the unit tests?
 
-* Database initialization
+1. Build the project, if not done before
+    1. Run `docker-compose build`
+2. Migrate the database
+    1. Run `docker-compose run --rm -e RAILS_ENV=test web rake db:migrate`
+3. Run the tests
+    1. Run `docker-compose run --rm -e RAILS_ENV=test web bundle exec rspec`
 
-* How to run the test suite
+## What technologies does it use?
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Ruby (2.5.1)
+2. Rails (5.2.2)
+3. RSpec for unit tests
+4. SimpleCov for test coverage
+5. Heroku for production deployment
+6. CircleCI for continuous integration
+7. Docker and docker-compose for development server and database
