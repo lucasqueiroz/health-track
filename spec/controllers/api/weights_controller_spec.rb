@@ -95,9 +95,13 @@ RSpec.describe Api::WeightsController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_measurement) { Faker::Number.between(70, 100).to_i }
+    let(:new_measured_at) { Faker::Date.between(6.years.ago, Date.today) }
+    let(:new_weight) { { weight: { measurement: new_measurement, measured_at: new_measured_at } } }
+
     context "when weight is valid" do
       before do
-        post :create, params: { weight: { measurement: 75, measured_at: '22/10/2018' } }
+        post :create, params: new_weight
       end
 
       it "returns http success" do
@@ -106,15 +110,15 @@ RSpec.describe Api::WeightsController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['measurement']).to eq(75)
-        expect(json['measured_at']).to eq('2018-10-22')
+        expect(json['measurement']).to eq(new_measurement)
+        expect(json['measured_at']).to eq(new_measured_at.to_s)
       end
     end
 
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        post :create, params: { weight: { measurement: 75, measured_at: '22/10/2018' } }
+        post :create, params: new_weight
       end
 
       it "returns http success" do
@@ -131,7 +135,7 @@ RSpec.describe Api::WeightsController, type: :controller do
     context "when saving fails" do
       before do
         allow_any_instance_of(Weight).to receive(:save).and_return(false)
-        post :create, params: { weight: { measurement: 75, measured_at: '22/10/2018' } }
+        post :create, params: new_weight
       end
 
       it "returns error JSON" do
@@ -142,9 +146,11 @@ RSpec.describe Api::WeightsController, type: :controller do
   end
 
   describe "PATCH #update" do
+    let(:new_measurement) { Faker::Number.between(70, 100).to_i }
+
     context "when updated information is valid" do
       before do
-        patch :update, params: { id: weight.id, weight: { measurement: 90 } }
+        patch :update, params: { id: weight.id, weight: { measurement: new_measurement } }
       end
 
       it "returns http success" do
@@ -153,14 +159,16 @@ RSpec.describe Api::WeightsController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['measurement']).to eq(90)
+        expect(json['measurement']).to eq(new_measurement)
         expect(json['measured_at']).to eq(weight.measured_at.to_s)
       end
     end
 
     context "when updated information is invalid" do
+      let(:new_measurement) { Faker::Number.negative.to_i }
+
       before do
-        patch :update, params: { id: weight.id, weight: { measurement: -90 } }
+        patch :update, params: { id: weight.id, weight: { measurement: new_measurement } }
       end
 
       it "returns http success" do
@@ -176,7 +184,7 @@ RSpec.describe Api::WeightsController, type: :controller do
     context "when user is not the owner of the resource" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(different_user.email, different_user.password)
-        patch :update, params: { id: weight.id, weight: { measurement: 90 } }
+        patch :update, params: { id: weight.id, weight: { measurement: new_measurement } }
       end
 
       it "returns http not found" do
@@ -193,7 +201,7 @@ RSpec.describe Api::WeightsController, type: :controller do
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        patch :update, params: { id: weight.id, weight: { measurement: 90 } }
+        patch :update, params: { id: weight.id, weight: { measurement: new_measurement } }
       end
 
       it "returns http success" do
@@ -209,7 +217,7 @@ RSpec.describe Api::WeightsController, type: :controller do
 
     context "when resource does not exist" do
       before do
-        patch :update, params: { id: Weight.last.id + 1, weight: { measurement: 90 } }
+        patch :update, params: { id: Weight.last.id + 1, weight: { measurement: new_measurement } }
       end
 
       it "returns http not found" do

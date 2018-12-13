@@ -48,8 +48,12 @@ RSpec.describe WeightsController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_measurement) { Faker::Number.between(70, 100).to_i }
+    let(:new_measured_at) { Faker::Date.between(6.years.ago, Date.today) }
+    let(:new_weight) { { weight: { measurement: new_measurement, measured_at: new_measured_at } } }
+
     it "creates a weight when information is valid" do
-      post :create, params: { weight: { measurement: 25, measured_at: '22/10/2018' } }
+      post :create, params: new_weight
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(weights_path)
@@ -58,7 +62,7 @@ RSpec.describe WeightsController, type: :controller do
     context "when saving fails" do
       before do
         allow_any_instance_of(Weight).to receive(:save).and_return(false)
-        post :create, params: { weight: { measurement: 25, measured_at: '22/10/2018' } }
+        post :create, params: new_weight
       end
 
       it "renders the new weight page" do
@@ -87,18 +91,20 @@ RSpec.describe WeightsController, type: :controller do
   end
 
   describe "POST #update" do
+    let(:new_measurement) { Faker::Number.between(70, 100).to_i }
+
     it "edits a weight when information is valid" do
-      patch :update, params: { id: weight.id, weight: { measurement: 100 } }
+      patch :update, params: { id: weight.id, weight: { measurement: new_measurement } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(weights_path)
-      expect(Weight.last.measurement).to eq(100)
+      expect(Weight.last.measurement).to eq(new_measurement)
     end
 
     context "when updating fails" do
       before do
         allow_any_instance_of(Weight).to receive(:update).and_return(false)
-        patch :update, params: { id: weight.id, weight: { measurement: 100 } }
+        patch :update, params: { id: weight.id, weight: { measurement: new_measurement } }
       end
 
       it "renders the edit weight page" do
