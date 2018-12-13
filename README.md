@@ -1,4 +1,4 @@
-# Health Track ![](/coverage/coverage.svg)
+# Health Track ![](/coverage/coverage.svg) [![CircleCI](https://circleci.com/bb/lucasqueiroz/health-track/tree/master.svg?style=svg&circle-token=cfd713cfc28a0ca72bc0ead44b5926b17b5da682)](https://circleci.com/bb/lucasqueiroz/health-track/tree/master)
 
 Health Track is a system for you to log your weight, height, workouts and eaten foods!
 It makes it easier for you to keep track of your health.
