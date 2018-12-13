@@ -3,6 +3,8 @@
 Health Track is a system for you to log your weight, height, workouts and eaten foods!
 It makes it easier for you to keep track of your health.
 
+You can check the project in production by following [this](https://healthtrack-demo.herokuapp.com) link.
+
 ## How to run it locally?
 
 Health Track requires you to have docker and docker-compose installed on your machine.
