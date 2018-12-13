@@ -46,7 +46,7 @@ RSpec.describe User, type: :model do
 
   context "when email is invalid" do
     before do
-      user.email = 'aaa'
+      user.email = Faker::Name.name.downcase
     end
 
     subject { user }
@@ -64,7 +64,7 @@ RSpec.describe User, type: :model do
 
   context "when birthday is after 01/01/2005" do
     before do
-      user.birthday = Date.new(2005, 1, 2)
+      user.birthday = Faker::Date.birthday(1, 12)
     end
 
     subject { user }
