@@ -42,3 +42,4 @@ You can either click the `Run in Postman` button, or follow [this](https://docum
 5. Heroku for production deployment
 6. CircleCI for continuous integration
 7. Docker and docker-compose for development server and database
+8. Faker for fake data generation
