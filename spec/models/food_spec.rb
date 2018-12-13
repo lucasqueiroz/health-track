@@ -46,7 +46,7 @@ RSpec.describe Food, type: :model do
 
   context "when calories is a float" do
     before do
-      food.calories = 1.50
+      food.calories = Faker::Number.decimal(1, 1)
     end
 
     subject { food }
@@ -55,7 +55,7 @@ RSpec.describe Food, type: :model do
 
   context "when calories are under 0" do
     before do
-      food.calories = -1
+      food.calories = Faker::Number.negative
     end
 
     subject { food }
@@ -64,7 +64,7 @@ RSpec.describe Food, type: :model do
 
   context "when calories are over 10000" do
     before do
-      food.calories = 10_001
+      food.calories = Faker::Number.number(6)
     end
 
     subject { food }
