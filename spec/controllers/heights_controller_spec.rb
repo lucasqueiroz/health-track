@@ -48,8 +48,12 @@ RSpec.describe HeightsController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_measurement) { Faker::Number.between(1.00, 2.00).to_f.round(2) }
+    let(:new_measured_at) { Faker::Date.between(6.years.ago, Date.today) }
+    let(:new_height) { { height: { measurement: new_measurement, measured_at: new_measured_at } } }
+
     it "creates a height when information is valid" do
-      post :create, params: { height: { measurement: 1.73, measured_at: '22/10/2018' } }
+      post :create, params: new_height
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(heights_path)
@@ -58,7 +62,7 @@ RSpec.describe HeightsController, type: :controller do
     context "when saving fails" do
       before do
         allow_any_instance_of(Height).to receive(:save).and_return(false)
-        post :create, params: { height: { measurement: 1.73, measured_at: '22/10/2018' } }
+        post :create, params: new_height
       end
 
       it "renders the new height page" do
@@ -87,18 +91,20 @@ RSpec.describe HeightsController, type: :controller do
   end
 
   describe "POST #update" do
+    let(:new_measurement) { Faker::Number.between(1.00, 2.00).to_f.round(2) }
+
     it "edits a height when information is valid" do
-      patch :update, params: { id: height.id, height: { measurement: 1.63 } }
+      patch :update, params: { id: height.id, height: { measurement: new_measurement } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(heights_path)
-      expect(Height.last.measurement).to eq(1.63)
+      expect(Height.last.measurement).to eq(new_measurement)
     end
 
     context "when updating fails" do
       before do
         allow_any_instance_of(Height).to receive(:update).and_return(false)
-        patch :update, params: { id: height.id, height: { measurement: 1.63 } }
+        patch :update, params: { id: height.id, height: { measurement: new_measurement } }
       end
 
       it "renders the edit height page" do

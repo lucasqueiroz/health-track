@@ -95,9 +95,10 @@ RSpec.describe Api::HeightsController, type: :controller do
   end
 
   describe "POST #create" do
-    let(:new_measurement) { Faker::Number.between(1.00, 2.00).to_f }
+    let(:new_measurement) { Faker::Number.between(1.00, 2.00).to_f.round(2) }
     let(:new_measured_at) { Faker::Date.between(6.years.ago, Date.today) }
     let(:new_height) { { height: { measurement: new_measurement, measured_at: new_measured_at } } }
+
     context "when height is valid" do
       before do
         post :create, params: new_height
@@ -145,7 +146,7 @@ RSpec.describe Api::HeightsController, type: :controller do
   end
 
   describe "PATCH #update" do
-    let(:new_measurement) { Faker::Number.between(1.00, 2.00).to_f }
+    let(:new_measurement) { Faker::Number.between(1.00, 2.00).to_f.round(2) }
 
     context "when updated information is valid" do
       before do
@@ -164,7 +165,7 @@ RSpec.describe Api::HeightsController, type: :controller do
     end
 
     context "when updated information is invalid" do
-      let(:new_measurement) { Faker::Number.between(-2.00, -1.00).to_f }
+      let(:new_measurement) { Faker::Number.between(-2.00, -1.00).to_f.round(2) }
 
       before do
         patch :update, params: { id: height.id, height: { measurement: new_measurement } }

@@ -96,7 +96,7 @@ RSpec.describe Api::FoodsController, type: :controller do
 
   describe "POST #create" do
     let(:new_name) { Faker::Name.name }
-    let(:new_calories) { Faker::Number.number(3).to_i }
+    let(:new_calories) { Faker::Number.between(100, 1000).to_i }
     let(:new_occurred_at) { Faker::Date.between(6.years.ago, Date.today) }
     let(:new_food) { { food: { name: new_name, calories: new_calories, occurred_at: new_occurred_at } } }
 
@@ -148,7 +148,7 @@ RSpec.describe Api::FoodsController, type: :controller do
   end
 
   describe "PATCH #update" do
-    let(:new_calories) { Faker::Number.number(3).to_i }
+    let(:new_calories) { Faker::Number.between(100, 1000).to_i }
 
     context "when updated information is valid" do
       before do

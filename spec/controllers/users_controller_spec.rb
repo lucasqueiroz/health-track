@@ -72,18 +72,22 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_name) { Faker::Name.name }
+    let(:new_email) { Faker::Internet.email }
+    let(:new_birthday) { Faker::Date.birthday(18, 65) }
+    let(:new_password) { Faker::Name.first_name.downcase }
+    let(:new_user) { { user: { name: new_name, email: new_email, birthday: new_birthday, password: new_password } } }
+
     it "creates a user when information is valid" do
-      post :create, params:
-        { user: { name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com', birthday: '26/02/1997', password: 'pass' } }
+      post :create, params: new_user
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(login_path)
-      expect(User.last.name).to eq('Lucas Queiroz')
+      expect(User.last.name).to eq(new_name)
     end
 
     it "fails when information is invalid" do
-      post :create, params:
-        { user: { name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com', birthday: '26/02/1997' } }
+      post :create, params: { user: { name: new_name, email: new_email, birthday: new_birthday } }
 
       expect(response).to have_http_status(:ok)
       expect(response).to render_template(:new)
@@ -91,6 +95,8 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "PATCH #update" do
+    let(:new_name) { Faker::Name.name }
+
     context "when user is logged in" do
       before do
         allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(true)
@@ -98,18 +104,18 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it "updates a user when information is valid" do
-        patch :update, params: { id: user.id, user: { name: 'Lucas C Queiroz' } }
+        patch :update, params: { id: user.id, user: { name: new_name } }
 
         expect(response).to have_http_status(:found)
         expect(response).to redirect_to(user)
-        expect(User.last.name).to eq('Lucas C Queiroz')
+        expect(User.last.name).to eq(new_name)
       end
     end
 
     context "when user is not logged in" do
       before do
         allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false)
-        patch :update, params: { id: user.id, user: { name: 'Lucas C Queiroz' } }
+        patch :update, params: { id: user.id, user: { name: new_name } }
       end
 
       it "redirects user" do
