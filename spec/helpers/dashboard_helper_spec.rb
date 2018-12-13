@@ -35,7 +35,7 @@ RSpec.describe DashboardHelper, type: :helper do
       end
 
       it "returns correct height date" do
-        expect(helper.last_height_date).to eq(height.measured_at)
+        expect(helper.last_height_date).to eq(height.measured_at.strftime("%d/%m/%Y"))
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe DashboardHelper, type: :helper do
       end
 
       it "returns correct weight date" do
-        expect(helper.last_weight_date).to eq(weight.measured_at)
+        expect(helper.last_weight_date).to eq(weight.measured_at.strftime("%d/%m/%Y"))
       end
     end
 
