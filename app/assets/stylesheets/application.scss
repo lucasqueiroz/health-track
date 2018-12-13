@@ -37,6 +37,7 @@ body {
 .alert-success {
   @extend .teal;
   @extend .accent-4;
+  @extend .white-text;
 }
 
 .list {
