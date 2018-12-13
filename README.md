@@ -25,6 +25,12 @@ Health Track requires you to have docker and docker-compose installed on your ma
 3. Run the tests
     1. Run `docker-compose run --rm -e RAILS_ENV=test web bundle exec rspec`
 
+## API Documentation
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/132206963a3e58183c3d)
+
+You can either click the `Run in Postman` button, or follow [this](https://documenter.getpostman.com/view/5305390/RzfjnU4L) link for a documentation.
+
 ## What technologies does it use?
 
 1. Ruby (2.5.1)
