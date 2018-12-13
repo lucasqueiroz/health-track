@@ -22,7 +22,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     it "returns valid JSON body" do
       expect(json).not_to be_empty
-      expect(json.size).to eq(3)
+      expect(json.size).to eq(User.all.size)
       expect(json.first['password_digest']).to be_nil
     end
   end
@@ -150,7 +150,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     context "when updated information is invalid" do
       let(:new_email) { 'invalid@email' }
-      
+
       before do
         patch :update, params: { id: user.id, user: { email: new_email } }
       end
