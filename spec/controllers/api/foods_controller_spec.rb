@@ -95,9 +95,14 @@ RSpec.describe Api::FoodsController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_name) { Faker::Name.name }
+    let(:new_calories) { Faker::Number.number(3).to_i }
+    let(:new_occurred_at) { Faker::Date.between(6.years.ago, Date.today) }
+    let(:new_food) { { food: { name: new_name, calories: new_calories, occurred_at: new_occurred_at } } }
+
     context "when food is valid" do
       before do
-        post :create, params: { food: { name: 'Poutine', calories: 470, occurred_at: '22/10/2018' } }
+        post :create, params: new_food
       end
 
       it "returns http success" do
@@ -106,16 +111,16 @@ RSpec.describe Api::FoodsController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['name']).to eq('Poutine')
-        expect(json['calories']).to eq(470)
-        expect(json['occurred_at']).to eq('2018-10-22')
+        expect(json['name']).to eq(new_name)
+        expect(json['calories']).to eq(new_calories)
+        expect(json['occurred_at']).to eq(new_occurred_at.to_s)
       end
     end
 
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        post :create, params: { food: { name: 'Poutine', calories: 470, occurred_at: '22/10/2018' } }
+        post :create, params: new_food
       end
 
       it "returns http success" do
@@ -132,7 +137,7 @@ RSpec.describe Api::FoodsController, type: :controller do
     context "when saving fails" do
       before do
         allow_any_instance_of(Food).to receive(:save).and_return(false)
-        post :create, params: { food: { name: 'Poutine', calories: 470, occurred_at: '22/10/2018' } }
+        post :create, params: new_food
       end
 
       it "returns error JSON" do
@@ -143,9 +148,11 @@ RSpec.describe Api::FoodsController, type: :controller do
   end
 
   describe "PATCH #update" do
+    let(:new_calories) { Faker::Number.number(3).to_i }
+
     context "when updated information is valid" do
       before do
-        patch :update, params: { id: food.id, food: { calories: 450 } }
+        patch :update, params: { id: food.id, food: { calories: new_calories } }
       end
 
       it "returns http success" do
@@ -154,15 +161,17 @@ RSpec.describe Api::FoodsController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['name']).to eq('Poutine')
-        expect(json['calories']).to eq(450)
+        expect(json['name']).to eq(food.name)
+        expect(json['calories']).to eq(new_calories)
         expect(json['occurred_at']).to eq(food.occurred_at.to_s)
       end
     end
 
     context "when updated information is invalid" do
+      let(:new_calories) { Faker::Number.negative }
+
       before do
-        patch :update, params: { id: food.id, food: { calories: -450 } }
+        patch :update, params: { id: food.id, food: { calories: new_calories } }
       end
 
       it "returns http success" do
@@ -178,7 +187,7 @@ RSpec.describe Api::FoodsController, type: :controller do
     context "when user is not the owner of the resource" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(different_user.email, different_user.password)
-        patch :update, params: { id: food.id, food: { calories: 450 } }
+        patch :update, params: { id: food.id, food: { calories: new_calories } }
       end
 
       it "returns http not found" do
@@ -195,7 +204,7 @@ RSpec.describe Api::FoodsController, type: :controller do
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        patch :update, params: { id: food.id, food: { calories: 450 } }
+        patch :update, params: { id: food.id, food: { calories: new_calories } }
       end
 
       it "returns http success" do
@@ -211,7 +220,7 @@ RSpec.describe Api::FoodsController, type: :controller do
 
     context "when resource does not exist" do
       before do
-        patch :update, params: { id: Food.last.id + 1, food: { calories: 450 } }
+        patch :update, params: { id: Food.last.id + 1, food: { calories: new_calories } }
       end
 
       it "returns http not found" do
