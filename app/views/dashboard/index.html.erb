@@ -6,15 +6,11 @@
         <h5 class="header col s12 light">Track your height, weight, workouts and food!</h5>
       </div>
       <div class="row center">
-        <% if logged_in? %>
-          <%= render partial: 'logged_in_buttons' %>
-        <% else %>
-          <%= render partial: 'logged_out_buttons' %>
-        <% end %>
+        <%= render partial: 'buttons' %>
       </div>
       <br>
       <br>
     </div>
   </div>
-  <%= image_tag 'dashboard/background.jpg', width: '100%' %>
+  <%= render partial: 'dashboard_info' %>
 </main>

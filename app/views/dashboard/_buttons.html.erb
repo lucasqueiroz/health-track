@@ -1,0 +1,5 @@
+<% if logged_in? %>
+  <%= render partial: 'logged_in_buttons' %>
+<% else %>
+  <%= render partial: 'logged_out_buttons' %>
+<% end %>

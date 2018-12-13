@@ -1,0 +1,26 @@
+<% if logged_in? %>
+  <div class="container">
+    <div class="row">
+      <table>
+        <tr>
+          <th colspan="2" class="center">Last Height</th>
+          <th colspan="2" class="center">Last Weight</th>
+        </tr>
+        <tr>
+          <th class="center">Height</th>
+          <th class="center">Date</th>
+          <th class="center">Weight</th>
+          <th class="center">Date</th>
+        </tr>
+        <tr>
+          <td class="center"><%= last_height_value %></td>
+          <td class="center"><%= last_height_date %></td>
+          <td class="center"><%= last_weight_value %></td>
+          <td class="center"><%= last_weight_date %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= image_tag 'dashboard/background.jpg', width: '100%' %>
+<% end %>
