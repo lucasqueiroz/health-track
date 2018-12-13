@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
+  let(:user) { create(:user) }
+
   describe "GET #new" do
     it "returns http success" do
       get :new
@@ -16,6 +18,30 @@ RSpec.describe UsersController, type: :controller do
 
       it "redirects the user to the dashboard" do
         expect(response).to redirect_to(root_path)
+      end
+    end
+  end
+
+  describe "GET #show" do
+    context "when user is logged in" do
+      before do
+        allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(true)
+        get :show, params: { id: user.id }
+      end
+
+      it "returns http success" do
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context "when user is not logged in" do
+      before do
+        allow_any_instance_of(SessionsHelper).to receive(:logged_in?).and_return(false)
+        get :show, params: { id: user.id }
+      end
+
+      it "returns http success" do
+        expect(response).to redirect_to(login_path)
       end
     end
   end

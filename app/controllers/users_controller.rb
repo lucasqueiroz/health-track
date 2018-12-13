@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
+  include UsersHelper
+
+  before_action :redirect_logged_in_user, only: [:new]
+  before_action :redirect_logged_out_user, only: [:show], unless: :logged_in?
+  before_action :set_user, only: [:show]
+
   def new
-    if logged_in?
-      redirect_to root_path
-    else
-      @user = User.new
-    end
+    @user = User.new
+  end
+
+  def show
   end
 
   def create
@@ -21,5 +26,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :birthday, :password, :password_confirmation)
+  end
+
+  def set_user
+    @user = User.find(params[:id])
   end
 end

@@ -1,5 +1,5 @@
 class FoodsController < ApplicationController
-  before_action :redirect_user, unless: :logged_in?
+  before_action :redirect_logged_out_user, unless: :logged_in?
   before_action :set_foods, only: :index
   before_action :set_food, only: [:edit, :update, :destroy]
 

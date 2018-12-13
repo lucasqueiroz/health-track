@@ -1,0 +1,17 @@
+<div class="container list">
+  <div class="row">
+    <div class="col s12">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title center"><%= gravatar_image_tag(current_user.email) %></span>
+          <p>
+            <%= render partial: 'user_profile' %>
+          </p>
+        </div>
+        <div class="fixed-action-btn">
+          <%= link_to '<i class="large material-icons">add</i>'.html_safe, new_height_path, { class: 'btn-floating btn-large green' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

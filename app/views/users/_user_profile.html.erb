@@ -1,0 +1,14 @@
+<table>
+  <tr>
+    <th class="center">Name</th>
+    <th class="center">Email</th>
+    <th class="center">Birthday</th>
+    <th class="center"></th>
+  </tr>
+  <tr>
+    <td class="center"><%= current_user.name %></td>
+    <td class="center"><%= current_user.email %></td>
+    <td class="center"><%= current_user.birthday %></td>
+    <td class="center"><%= link_to 'Edit', edit_user_path(current_user) %></td>
+  </tr>
+</table>

@@ -17,7 +17,7 @@ module SessionsHelper
     !current_user.nil?
   end
 
-  def redirect_user
+  def redirect_logged_out_user
     flash[:danger] = "You must be logged in to do this!"
     redirect_to login_path
   end

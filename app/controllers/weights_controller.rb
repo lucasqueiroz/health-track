@@ -1,5 +1,5 @@
 class WeightsController < ApplicationController
-  before_action :redirect_user, unless: :logged_in?
+  before_action :redirect_logged_out_user, unless: :logged_in?
   before_action :set_weights, only: :index
   before_action :set_weight, only: [:edit, :update, :destroy]
 

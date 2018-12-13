@@ -1,5 +1,5 @@
 class HeightsController < ApplicationController
-  before_action :redirect_user, unless: :logged_in?
+  before_action :redirect_logged_out_user, unless: :logged_in?
   before_action :set_heights, only: :index
   before_action :set_height, only: [:edit, :update, :destroy]
 
