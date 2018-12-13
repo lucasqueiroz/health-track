@@ -78,9 +78,15 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_name) { Faker::Name.name }
+    let(:new_email) { Faker::Internet.email }
+    let(:new_birthday) { Faker::Date.birthday(18, 65) }
+    let(:new_password) { Faker::Name.first_name.downcase }
+    let(:new_user) { { user: { name: new_name, email: new_email, birthday: new_birthday, password: new_password } } }
+
     context "when user is valid" do
       before do
-        post :create, params: { user: { name: 'Lucas Queiroz', email: 'lucascqueiroz97@gmail.com.br', birthday: '26/02/1997', password: 'password' } }
+        post :create, params: new_user
       end
 
       it "returns http success" do
@@ -89,13 +95,15 @@ RSpec.describe Api::UsersController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['email']).to eq('lucascqueiroz97@gmail.com.br')
+        expect(json['email']).to eq(new_email)
       end
     end
 
     context "when user is invalid" do
+      let(:new_email) { 'invalid@email' }
+
       before do
-        post :create, params: { user: { name: 'Lucas Queiroz', email: 'invalid@email', birthday: '26/02/1997', password: 'password' } }
+        post :create, params: new_user
       end
 
       it "returns http success" do
@@ -111,7 +119,7 @@ RSpec.describe Api::UsersController, type: :controller do
     context "when saving fails" do
       before do
         allow_any_instance_of(User).to receive(:save).and_return(false)
-        post :create, params: { user: { name: 'Lucas Queiroz', email: 'invalid@email', birthday: '26/02/1997', password: 'password' } }
+        post :create, params: new_user
       end
 
       it "returns error JSON" do
@@ -122,9 +130,11 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "PATCH #update" do
+    let(:new_email) { Faker::Internet.email }
+
     context "when updated information is valid" do
       before do
-        patch :update, params: { id: user.id, user: { email: 'new_email@gmail.com' } }
+        patch :update, params: { id: user.id, user: { email: new_email } }
       end
 
       it "returns http success" do
@@ -133,14 +143,16 @@ RSpec.describe Api::UsersController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['email']).to eq('new_email@gmail.com')
+        expect(json['email']).to eq(new_email)
         expect(json['errors']).to be_nil
       end
     end
 
     context "when updated information is invalid" do
+      let(:new_email) { 'invalid@email' }
+      
       before do
-        patch :update, params: { id: user.id, user: { email: 'new_email@wrong' } }
+        patch :update, params: { id: user.id, user: { email: new_email } }
       end
 
       it "returns http success" do
@@ -156,7 +168,7 @@ RSpec.describe Api::UsersController, type: :controller do
     context "when user is not the owner of the account" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(third_user.email, third_user.password)
-        patch :update, params: { id: different_user.id, user: { email: 'new_email@gmail.com' } }
+        patch :update, params: { id: different_user.id, user: { email: new_email } }
       end
 
       it "returns http success" do
@@ -173,7 +185,7 @@ RSpec.describe Api::UsersController, type: :controller do
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        patch :update, params: { id: user.id, user: { email: 'new_email@gmail.com' } }
+        patch :update, params: { id: user.id, user: { email: new_email } }
       end
 
       it "returns http success" do
