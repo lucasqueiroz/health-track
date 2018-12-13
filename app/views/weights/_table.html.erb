@@ -7,7 +7,7 @@
   <% @weights.each do |weight| %>
     <tr>
       <td class="center"><%= weight.measurement %></td>
-      <td class="center"><%= weight.measured_at %></td>
+      <td class="center"><%= format_date(weight.measured_at) %></td>
       <td class="center"><%= link_to 'Delete', weight, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <td class="center"><%= link_to 'Edit', edit_weight_path(weight) %></td>
     </tr>

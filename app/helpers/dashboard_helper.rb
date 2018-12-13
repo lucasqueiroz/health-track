@@ -4,7 +4,7 @@ module DashboardHelper
   end
 
   def last_height_date
-    last_height.nil? ? "No last height" : last_height.measured_at
+    last_height.nil? ? "No last height" : format_date(last_height.measured_at)
   end
 
   def last_weight_value
@@ -12,7 +12,7 @@ module DashboardHelper
   end
 
   def last_weight_date
-    last_weight.nil? ? "No last weight" : last_weight.measured_at
+    last_weight.nil? ? "No last weight" : format_date(last_weight.measured_at)
   end
 
   private

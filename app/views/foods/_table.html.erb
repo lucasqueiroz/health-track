@@ -9,7 +9,7 @@
     <tr>
       <td class="center"><%= food.name %></td>
       <td class="center"><%= food.calories %></td>
-      <td class="center"><%= food.occurred_at %></td>
+      <td class="center"><%= format_date(food.occurred_at) %></td>
       <td class="center"><%= link_to 'Delete', food, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <td class="center"><%= link_to 'Edit', edit_food_path(food) %></td>
     </tr>

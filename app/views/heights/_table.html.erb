@@ -7,7 +7,7 @@
   <% @heights.each do |height| %>
     <tr>
       <td class="center"><%= height.measurement %></td>
-      <td class="center"><%= height.measured_at %></td>
+      <td class="center"><%= format_date(height.measured_at) %></td>
       <td class="center"><%= link_to 'Delete', height, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <td class="center"><%= link_to 'Edit', edit_height_path(height) %></td>
     </tr>
