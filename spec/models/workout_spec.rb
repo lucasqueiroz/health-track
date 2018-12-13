@@ -46,7 +46,7 @@ RSpec.describe Workout, type: :model do
 
   context "when calories is a float" do
     before do
-      workout.calories = 1.50
+      workout.calories = Faker::Number.decimal
     end
 
     subject { workout }
@@ -55,7 +55,7 @@ RSpec.describe Workout, type: :model do
 
   context "when calories are under 0" do
     before do
-      workout.calories = -1
+      workout.calories = Faker::Number.negative
     end
 
     subject { workout }
@@ -64,7 +64,7 @@ RSpec.describe Workout, type: :model do
 
   context "when calories are over 10000" do
     before do
-      workout.calories = 10_001
+      workout.calories = Faker::Number.number(6)
     end
 
     subject { workout }
