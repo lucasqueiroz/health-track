@@ -145,13 +145,6 @@
         null,
         null
       ],
-      "/app/app/helpers/users_helper.rb": [
-        1,
-        1,
-        2,
-        null,
-        null
-      ],
       "/app/app/controllers/api/foods_controller.rb": [
         1,
         1,
@@ -671,6 +664,13 @@
         null,
         null
       ],
+      "/app/app/controllers/concerns/users_concern.rb": [
+        1,
+        1,
+        2,
+        null,
+        null
+      ],
       "/app/app/controllers/weights_controller.rb": [
         1,
         1,
@@ -786,6 +786,6 @@
         null
       ]
     },
-    "timestamp": 1544669504
+    "timestamp": 1544706164
   }
 }

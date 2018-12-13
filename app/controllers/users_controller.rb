@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include UsersHelper
+  include UsersConcern
 
   before_action :redirect_logged_in_user, only: [:new]
   before_action :redirect_logged_out_user, only: [:show, :edit, :update], unless: :logged_in?
