@@ -9,8 +9,8 @@ RSpec.describe Api::FoodsController, type: :controller do
 
   let!(:food) { create(:food) }
   let!(:different_food) { create(:different_food) }
-  let(:user) { build(:user) }
-  let(:different_user) { build(:different_user) }
+  let(:user) { food.user }
+  let(:different_user) { different_food.user }
   let(:third_user) { create(:third_user) }
 
   describe "GET #index" do

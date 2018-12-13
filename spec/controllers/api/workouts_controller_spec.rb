@@ -9,8 +9,8 @@ RSpec.describe Api::WorkoutsController, type: :controller do
 
   let!(:workout) { create(:workout) }
   let!(:different_workout) { create(:different_workout) }
-  let(:user) { build(:user) }
-  let(:different_user) { build(:different_user) }
+  let(:user) { workout.user }
+  let(:different_user) { different_workout.user }
   let(:third_user) { create(:third_user) }
 
   describe "GET #index" do

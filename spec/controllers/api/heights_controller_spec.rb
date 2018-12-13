@@ -9,8 +9,8 @@ RSpec.describe Api::HeightsController, type: :controller do
 
   let!(:height) { create(:height) }
   let!(:different_height) { create(:different_height) }
-  let(:user) { build(:user) }
-  let(:different_user) { build(:different_user) }
+  let(:user) { height.user }
+  let(:different_user) { different_height.user }
   let(:third_user) { create(:third_user) }
 
   describe "GET #index" do

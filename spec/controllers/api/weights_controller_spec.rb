@@ -9,8 +9,8 @@ RSpec.describe Api::WeightsController, type: :controller do
 
   let!(:weight) { create(:weight) }
   let!(:different_weight) { create(:different_weight) }
-  let(:user) { build(:user) }
-  let(:different_user) { build(:different_user) }
+  let(:user) { weight.user }
+  let(:different_user) { different_weight.user }
   let(:third_user) { create(:third_user) }
 
   describe "GET #index" do
