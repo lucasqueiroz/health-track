@@ -28,7 +28,7 @@ RSpec.describe Height, type: :model do
 
   context "when measurement is less than 0" do
     before do
-      height.measurement = -0.1
+      height.measurement = Faker::Number.negative
     end
 
     subject { height }
