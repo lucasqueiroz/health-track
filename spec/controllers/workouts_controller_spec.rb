@@ -48,8 +48,13 @@ RSpec.describe WorkoutsController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_name) { Faker::Name.first_name }
+    let(:new_calories) { Faker::Number.between(100, 1000).to_i }
+    let(:new_occurred_at) { Faker::Date.between(6.years.ago, Date.today) }
+    let(:new_workout) { { workout: { name: new_name, calories: new_calories, occurred_at: new_occurred_at } } }
+
     it "creates a workout when information is valid" do
-      post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+      post :create, params: new_workout
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(workouts_path)
@@ -58,7 +63,7 @@ RSpec.describe WorkoutsController, type: :controller do
     context "when saving fails" do
       before do
         allow_any_instance_of(Workout).to receive(:save).and_return(false)
-        post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+        post :create, params: new_workout
       end
 
       it "renders the new workout page" do
@@ -87,18 +92,20 @@ RSpec.describe WorkoutsController, type: :controller do
   end
 
   describe "POST #update" do
+    let(:new_calories) { Faker::Number.between(100, 1000).to_i }
+
     it "edits a workout when information is valid" do
-      patch :update, params: { id: workout.id, workout: { calories: 550 } }
+      patch :update, params: { id: workout.id, workout: { calories: new_calories } }
 
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(workouts_path)
-      expect(Workout.last.calories).to eq(550)
+      expect(Workout.last.calories).to eq(new_calories)
     end
 
     context "when updating fails" do
       before do
         allow_any_instance_of(Workout).to receive(:update).and_return(false)
-        patch :update, params: { id: workout.id, workout: { calories: 550 } }
+        patch :update, params: { id: workout.id, workout: { calories: new_calories } }
       end
 
       it "renders the edit workout page" do

@@ -95,9 +95,14 @@ RSpec.describe Api::WorkoutsController, type: :controller do
   end
 
   describe "POST #create" do
+    let(:new_name) { Faker::Name.first_name }
+    let(:new_calories) { Faker::Number.between(100, 1000).to_i }
+    let(:new_occurred_at) { Faker::Date.between(6.years.ago, Date.today) }
+    let(:new_workout) { { workout: { name: new_name, calories: new_calories, occurred_at: new_occurred_at } } }
+
     context "when workout is valid" do
       before do
-        post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+        post :create, params: new_workout
       end
 
       it "returns http success" do
@@ -106,16 +111,16 @@ RSpec.describe Api::WorkoutsController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['name']).to eq('Running')
-        expect(json['calories']).to eq(500)
-        expect(json['occurred_at']).to eq('2018-10-22')
+        expect(json['name']).to eq(new_name)
+        expect(json['calories']).to eq(new_calories)
+        expect(json['occurred_at']).to eq(new_occurred_at.to_s)
       end
     end
 
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+        post :create, params: new_workout
       end
 
       it "returns http success" do
@@ -132,7 +137,7 @@ RSpec.describe Api::WorkoutsController, type: :controller do
     context "when saving fails" do
       before do
         allow_any_instance_of(Workout).to receive(:save).and_return(false)
-        post :create, params: { workout: { name: 'Running', calories: 500, occurred_at: '22/10/2018' } }
+        post :create, params: new_workout
       end
 
       it "returns error JSON" do
@@ -143,9 +148,11 @@ RSpec.describe Api::WorkoutsController, type: :controller do
   end
 
   describe "PATCH #update" do
+    let(:new_calories) { Faker::Number.between(100, 1000).to_i }
+
     context "when updated information is valid" do
       before do
-        patch :update, params: { id: workout.id, workout: { calories: 450 } }
+        patch :update, params: { id: workout.id, workout: { calories: new_calories } }
       end
 
       it "returns http success" do
@@ -154,15 +161,16 @@ RSpec.describe Api::WorkoutsController, type: :controller do
 
       it "returns valid JSON body" do
         expect(json).not_to be_empty
-        expect(json['name']).to eq('Running')
-        expect(json['calories']).to eq(450)
+        expect(json['name']).to eq(workout.name)
+        expect(json['calories']).to eq(new_calories)
         expect(json['occurred_at']).to eq(workout.occurred_at.to_s)
       end
     end
 
     context "when updated information is invalid" do
+      let(:new_calories) { Faker::Number.between(-1000, -100).to_i }
       before do
-        patch :update, params: { id: workout.id, workout: { calories: -450 } }
+        patch :update, params: { id: workout.id, workout: { calories: new_calories } }
       end
 
       it "returns http success" do
@@ -178,7 +186,7 @@ RSpec.describe Api::WorkoutsController, type: :controller do
     context "when user is not the owner of the resource" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth(different_user.email, different_user.password)
-        patch :update, params: { id: workout.id, workout: { calories: 450 } }
+        patch :update, params: { id: workout.id, workout: { calories: new_calories } }
       end
 
       it "returns http not found" do
@@ -195,7 +203,7 @@ RSpec.describe Api::WorkoutsController, type: :controller do
     context "when user is not authorized" do
       before do
         controller.request.env['HTTP_AUTHORIZATION'] = basic_auth('email', 'password')
-        patch :update, params: { id: workout.id, workout: { calories: 450 } }
+        patch :update, params: { id: workout.id, workout: { calories: new_calories } }
       end
 
       it "returns http success" do
@@ -211,7 +219,7 @@ RSpec.describe Api::WorkoutsController, type: :controller do
 
     context "when resource does not exist" do
       before do
-        patch :update, params: { id: Workout.last.id + 1, workout: { calories: 450 } }
+        patch :update, params: { id: Workout.last.id + 1, workout: { calories: new_calories } }
       end
 
       it "returns http not found" do
