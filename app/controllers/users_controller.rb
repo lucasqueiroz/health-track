@@ -2,14 +2,17 @@ class UsersController < ApplicationController
   include UsersHelper
 
   before_action :redirect_logged_in_user, only: [:new]
-  before_action :redirect_logged_out_user, only: [:show], unless: :logged_in?
-  before_action :set_user, only: [:show]
+  before_action :redirect_logged_out_user, only: [:show, :edit, :update], unless: :logged_in?
+  before_action :set_user, only: [:show, :edit, :update]
 
   def new
     @user = User.new
   end
 
   def show
+  end
+
+  def edit
   end
 
   def create
@@ -19,6 +22,15 @@ class UsersController < ApplicationController
       redirect_to login_path
     else
       render :new
+    end
+  end
+
+  def update
+    if @user.update(user_params)
+      flash[:success] = "User updated!"
+      redirect_to current_user
+    else
+      render :edit
     end
   end
 
